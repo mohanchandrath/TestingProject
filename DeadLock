@@ -1,0 +1,35 @@
+package com.Thread;
+
+class DeadlockDemo1 extends Thread{
+	
+	static Thread ct;
+	public void run(){
+		for(int i=0; i<1; i++){
+			System.out.println("Child Thread : "+i);
+			try {
+				ct.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+}
+
+public class DeadLock {
+
+	public static void main(String[] args) throws InterruptedException {
+
+		DeadlockDemo1.ct = Thread.currentThread();
+		
+		DeadlockDemo1 dt = new DeadlockDemo1();
+		
+		dt.start();
+		
+		for(int j=0; j<5; j++){
+			System.out.println("Main Thread : "+j);
+			dt.join();
+		}
+
+	}
+
+}
